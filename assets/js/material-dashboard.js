@@ -114,7 +114,7 @@ if (document.querySelector('.fixed-plugin')) {
 
   if (navbar) {
     if (navbar.getAttribute('data-scroll') == 'true' && buttonNavbarFixed) {
-      buttonNavbarFixed.setAttribute("checked", "true");
+      // buttonNavbarFixed.setAttribute("checked", "true");
     }
   }
 
@@ -230,16 +230,28 @@ function sidebarType(a) {
 }
 
 // Set Navbar Fixed
+if (window.localStorage.getItem('navbarFixed') === 'true') {
+  const navbarBtn = document.getElementById('navbarFixed');
+  navbarBtn.setAttribute("checked", "true");
+  const navbar = document.getElementById('navbarBlur');
+
+  let classes = ['position-sticky', 'blur', 'shadow-blur', 'mt-4', 'left-auto', 'top-1', 'z-index-sticky'];
+  navbar.classList.add(...classes);
+  navbar.setAttribute('navbar-scroll', 'true');
+  navbarBlurOnScroll('navbarBlur');
+}
 function navbarFixed(el) {
   let classes = ['position-sticky', 'blur', 'shadow-blur', 'mt-4', 'left-auto', 'top-1', 'z-index-sticky'];
   const navbar = document.getElementById('navbarBlur');
 
   if (!el.getAttribute("checked")) {
+    window.localStorage.setItem('navbarFixed', true);
     navbar.classList.add(...classes);
     navbar.setAttribute('navbar-scroll', 'true');
     navbarBlurOnScroll('navbarBlur');
     el.setAttribute("checked", "true");
   } else {
+    window.localStorage.setItem('navbarFixed', false);
     navbar.classList.remove(...classes);
     navbar.setAttribute('navbar-scroll', 'false');
     navbarBlurOnScroll('navbarBlur');
@@ -653,7 +665,94 @@ function sidenavTypeOnResize() {
 
 
 // Light Mode / Dark Mode
+if (window.localStorage.getItem('darkMode') === 'true'){
+  var darkBtn = document.getElementById('dark-version');
+  darkBtn.setAttribute("checked", "true");
+  const body = document.getElementsByTagName('body')[0];
+  const hr = document.querySelectorAll('div:not(.sidenav) > hr');
+  const hr_card = document.querySelectorAll('div:not(.bg-gradient-dark) hr');
+  const text_btn = document.querySelectorAll('button:not(.btn) > .text-dark');
+  const text_span = document.querySelectorAll('span.text-dark, .breadcrumb .text-dark');
+  const text_span_white = document.querySelectorAll('span.text-white, .breadcrumb .text-white');
+  const text_strong = document.querySelectorAll('strong.text-dark');
+  const text_strong_white = document.querySelectorAll('strong.text-white');
+  const text_nav_link = document.querySelectorAll('a.nav-link.text-dark');
+  const text_nav_link_white = document.querySelectorAll('a.nav-link.text-white');
+  const secondary = document.querySelectorAll('.text-secondary');
+  const bg_gray_100 = document.querySelectorAll('.bg-gray-100');
+  const bg_gray_600 = document.querySelectorAll('.bg-gray-600');
+  const btn_text_dark = document.querySelectorAll('.btn.btn-link.text-dark, .material-icons.text-dark');
+  const btn_text_white = document.querySelectorAll('.btn.btn-link.text-white, .material-icons.text-white');
+  const card_border = document.querySelectorAll('.card.border');
+  const card_border_dark = document.querySelectorAll('.card.border.border-dark');
+
+  const svg = document.querySelectorAll('g');
+  body.classList.add('dark-version');
+  for (var i = 0; i < hr.length; i++) {
+    if (hr[i].classList.contains('dark')) {
+      hr[i].classList.remove('dark');
+      hr[i].classList.add('light');
+    }
+  }
+
+  for (var i = 0; i < hr_card.length; i++) {
+    if (hr_card[i].classList.contains('dark')) {
+      hr_card[i].classList.remove('dark');
+      hr_card[i].classList.add('light');
+    }
+  }
+  for (var i = 0; i < text_btn.length; i++) {
+    if (text_btn[i].classList.contains('text-dark')) {
+      text_btn[i].classList.remove('text-dark');
+      text_btn[i].classList.add('text-white');
+    }
+  }
+  for (var i = 0; i < text_span.length; i++) {
+    if (text_span[i].classList.contains('text-dark')) {
+      text_span[i].classList.remove('text-dark');
+      text_span[i].classList.add('text-white');
+    }
+  }
+  for (var i = 0; i < text_strong.length; i++) {
+    if (text_strong[i].classList.contains('text-dark')) {
+      text_strong[i].classList.remove('text-dark');
+      text_strong[i].classList.add('text-white');
+    }
+  }
+  for (var i = 0; i < text_nav_link.length; i++) {
+    if (text_nav_link[i].classList.contains('text-dark')) {
+      text_nav_link[i].classList.remove('text-dark');
+      text_nav_link[i].classList.add('text-white');
+    }
+  }
+  for (var i = 0; i < secondary.length; i++) {
+    if (secondary[i].classList.contains('text-secondary')) {
+      secondary[i].classList.remove('text-secondary');
+      secondary[i].classList.add('text-white');
+      secondary[i].classList.add('opacity-8');
+    }
+  }
+  for (var i = 0; i < bg_gray_100.length; i++) {
+    if (bg_gray_100[i].classList.contains('bg-gray-100')) {
+      bg_gray_100[i].classList.remove('bg-gray-100');
+      bg_gray_100[i].classList.add('bg-gray-600');
+    }
+  }
+  for (var i = 0; i < btn_text_dark.length; i++) {
+    btn_text_dark[i].classList.remove('text-dark');
+    btn_text_dark[i].classList.add('text-white');
+  }
+  for (var i = 0; i < svg?.length; i++) {
+    if (svg[i].hasAttribute('fill')) {
+      svg[i].setAttribute('fill', '#fff');
+    }
+  }
+  for (var i = 0; i < card_border.length; i++) {
+    card_border[i].classList.add('border-dark');
+  }
+}
 function darkMode(el) {
+
   const body = document.getElementsByTagName('body')[0];
   const hr = document.querySelectorAll('div:not(.sidenav) > hr');
   const hr_card = document.querySelectorAll('div:not(.bg-gradient-dark) hr');
@@ -675,6 +774,7 @@ function darkMode(el) {
   const svg = document.querySelectorAll('g');
 
   if (!el.getAttribute("checked")) {
+    window.localStorage.setItem('darkMode', true);
     body.classList.add('dark-version');
     for (var i = 0; i < hr.length; i++) {
       if (hr[i].classList.contains('dark')) {
@@ -740,6 +840,7 @@ function darkMode(el) {
     }
     el.setAttribute("checked", "true");
   } else {
+    window.localStorage.setItem('darkMode', false);
     body.classList.remove('dark-version');
     for (var i = 0; i < hr.length; i++) {
       if (hr[i].classList.contains('light')) {
